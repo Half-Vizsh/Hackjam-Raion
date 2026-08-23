@@ -17,6 +17,9 @@ public class ItemPickup : MonoBehaviour, IPickupable
     #region  Public Methdos
     public bool TryPickup(PlayerInventory inventory)
     {
+        Debug.Log($"Inventory: {inventory}");
+        Debug.Log($"ItemStack: {_itemStack}");
+        Debug.Log($"ItemData: {_itemStack?.Item}");
         if (inventory.AddItem(_itemStack))
         {
             Destroy(gameObject);
