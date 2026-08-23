@@ -6,17 +6,16 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     #region Variables
-    private ItemStack[] _inventorySlots = new ItemStack[2];
+    private ItemStack[] _inventorySlots = new ItemStack[9];
     [SerializeField] private int selectedSlot;
     private PlayerInput _inputSystem;
-    private ItemPickup _itemNearby;
+    private List<ItemPickup> _itemsNearby = new List<ItemPickup>();
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         _inputSystem = new PlayerInput();
-        // _inventorySlots = new ItemStack[2];
         Debug.Log($"Inventory array: {_inventorySlots}");
         Debug.Log($"Inventory size: {_inventorySlots.Length}");
     }
@@ -39,20 +38,30 @@ public class PlayerInventory : MonoBehaviour
     {
         ItemPickup pickup = other.GetComponent<ItemPickup>();
         if (pickup == null) return;
-        _itemNearby = pickup;
+        // _itemNearby = pickup;
+        Debug.Log("Item baru masuk inventory"+other.name);
+        _itemsNearby.Add(pickup);
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        _itemNearby = null;
+        ItemPickup pickup = other.GetComponent<ItemPickup>();
+        if (pickup == null) return;
+        Debug.Log("Item keluar inventory"+other.name);
+        _itemsNearby.Remove(pickup);
     }
     #endregion
 
     #region Private Methods
     private void Interact()
     {
-        if (_itemNearby == null) return;
+        if (_itemsNearby.Count == 0) return;
         Debug.Log("Ada item baru");
-        _itemNearby.TryPickup(this);
+        ItemPickup targetItem= _itemsNearby[0];
+        
+        if (targetItem.TryPickup(this))
+        {
+            _itemsNearby.Remove(targetItem);
+        }
     }
     #endregion
 
@@ -67,6 +76,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (_inventorySlots[a] != null && _inventorySlots[a].Item.ItemID == addedItem.Item.ItemID)
             {
+                //Trigger event UI
                 _inventorySlots[a].AddToStack();
                 Debug.Log("Item added to the existing stack");
                 return true;
@@ -76,7 +86,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (_inventorySlots[i]==null)
             {
-                //Trigger event?
+                //Trigger event UI
                 _inventorySlots[i] = addedItem;
                 Debug.Log("New Item acquired");
                 return true;
