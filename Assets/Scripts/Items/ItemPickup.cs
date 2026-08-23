@@ -19,7 +19,7 @@ public class ItemPickup : MonoBehaviour, IPickupable
     {
         Debug.Log($"Inventory: {inventory}");
         Debug.Log($"ItemStack: {_itemStack}");
-        Debug.Log($"ItemData: {_itemStack?.Item}");
+        Debug.Log($"ItemData: {_itemStack?.ItemData}");
         if (inventory.AddItem(_itemStack))
         {
             Destroy(gameObject);

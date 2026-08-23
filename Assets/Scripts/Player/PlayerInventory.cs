@@ -10,6 +10,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int selectedSlot;
     private PlayerInput _inputSystem;
     private List<ItemPickup> _itemsNearby = new List<ItemPickup>();
+    public event Action<int, ItemStack> OnInventoryChanged;
     #endregion
 
     #region Unity Methods
@@ -23,7 +24,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (_inputSystem.Player.Pickup.WasPressedThisFrame())
         {
-            Interact();
+            HandlePickup();
         }
     }
     private void OnEnable()
@@ -38,7 +39,6 @@ public class PlayerInventory : MonoBehaviour
     {
         ItemPickup pickup = other.GetComponent<ItemPickup>();
         if (pickup == null) return;
-        // _itemNearby = pickup;
         Debug.Log("Item baru masuk inventory"+other.name);
         _itemsNearby.Add(pickup);
     }
@@ -52,7 +52,7 @@ public class PlayerInventory : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void Interact()
+    private void HandlePickup()
     {
         if (_itemsNearby.Count == 0) return;
         Debug.Log("Ada item baru");
@@ -74,10 +74,11 @@ public class PlayerInventory : MonoBehaviour
 
         for (int a = 0; a<_inventorySlots.Length; a++)
         {
-            if (_inventorySlots[a] != null && _inventorySlots[a].Item.ItemID == addedItem.Item.ItemID)
+            if (_inventorySlots[a] != null && _inventorySlots[a].ItemData.ItemID == addedItem.ItemData.ItemID)
             {
                 //Trigger event UI
                 _inventorySlots[a].AddToStack();
+                OnInventoryChanged?.Invoke(a, addedItem);
                 Debug.Log("Item added to the existing stack");
                 return true;
             }
@@ -88,6 +89,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 //Trigger event UI
                 _inventorySlots[i] = addedItem;
+                OnInventoryChanged?.Invoke(i, addedItem);
                 Debug.Log("New Item acquired");
                 return true;
             } 

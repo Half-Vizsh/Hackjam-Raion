@@ -7,7 +7,7 @@ public class ItemStack
    [SerializeField] private ItemData _itemData;
    [SerializeField] private int _amount;
 
-   public ItemData Item => _itemData;
+   public ItemData ItemData => _itemData;
    public int Amount => _amount;
     public void AddToStack()
     {
