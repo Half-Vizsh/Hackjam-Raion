@@ -44,13 +44,12 @@ public class PlayerInventory : MonoBehaviour
         
         Debug.Log("[PlayerInventory] new Item in pick up range"+other.name);
         _itemsNearby.Add(pickup);
-
-        if (_currentPickup != null && _currentPickup.HighlightActive)
+        if (_itemsNearby.Count == 1) _itemsNearby[_selectedPickup].ActivateHighlight();
+        else
         {
-            _currentPickup.DisableHighlight();
+            foreach (ItemPickup item in _itemsNearby) item.DisableHighlight();
+            pickup.ActivateHighlight();
         }
-        _currentPickup = pickup;
-        if (!pickup.HighlightActive) pickup.ActivateHighlight();
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -93,12 +92,12 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (_selectedPickup<_itemsNearby.Count-1) 
                 {
-                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    foreach (ItemPickup item in _itemsNearby) item.DisableHighlight();
                     _selectedPickup++;
                     _itemsNearby[_selectedPickup].ActivateHighlight();
                     Debug.Log("[PlayerInventory] Index bertambah, current Index: "+_selectedPickup);
                 } else {
-                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    foreach (ItemPickup item in _itemsNearby) item.DisableHighlight();
                     _selectedPickup = 0;
                     _itemsNearby[_selectedPickup].ActivateHighlight();
                     Debug.Log("[PlayerInventory] Index bertambah hingga mentok, current Index: "+_selectedPickup);
@@ -106,12 +105,12 @@ public class PlayerInventory : MonoBehaviour
             } else if (Keyboard.current.qKey.wasPressedThisFrame){
                 if (_selectedPickup > 0)
                 {
-                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    foreach (ItemPickup item in _itemsNearby) item.DisableHighlight();
                     _selectedPickup--; 
                     _itemsNearby[_selectedPickup].ActivateHighlight();
                     Debug.Log("[PlayerInventory] Index berkurang, current Index: "+_selectedPickup);
                 } else {
-                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    foreach (ItemPickup item in _itemsNearby) item.DisableHighlight();
                     _selectedPickup = _itemsNearby.Count-1;
                     _itemsNearby[_selectedPickup].ActivateHighlight();
                   Debug.Log("[PlayerInventory] Index berkurang hingga mentok, current index: "+_selectedPickup);  
