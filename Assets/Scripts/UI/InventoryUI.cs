@@ -1,11 +1,13 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
     #region Variables
     [SerializeField]
-    SlotUI[] uiSlots = new SlotUI [9];
+    SlotUI[] uiSlots = new SlotUI [10];
     [SerializeField] private PlayerInventory _playerInventory;
+    private int _currentSelectedIdx;
     #endregion
 
     #region Unity Methods
@@ -16,6 +18,7 @@ public class InventoryUI : MonoBehaviour
     private void Start()
     {
         _playerInventory.OnInventoryChanged += ChangeSlotUI;
+        _playerInventory.OnSlotChanged += ChangeChoosenSlot;
     }
     private void OnDisable()
     {
@@ -27,6 +30,12 @@ public class InventoryUI : MonoBehaviour
     private void ChangeSlotUI(int slotIdx, ItemStack item)
     {
         uiSlots[slotIdx].UpdateItemInfo(item.ItemData.icon, item.Amount);
+    }
+    private void ChangeChoosenSlot(int newIdx)
+    {
+        uiSlots[_currentSelectedIdx].DisableSelectedSlot();
+        uiSlots[newIdx].ActivateSelectedSlot();
+        _currentSelectedIdx = newIdx;
     }
     #endregion
 
