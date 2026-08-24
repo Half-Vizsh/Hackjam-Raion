@@ -1,24 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
     #region Variables
     private ItemStack[] _inventorySlots = new ItemStack[9];
-    [SerializeField] private int selectedSlot;
+    [SerializeField] private int _selectedPickup;
     private PlayerInput _inputSystem;
     private List<ItemPickup> _itemsNearby = new List<ItemPickup>();
     public event Action<int, ItemStack> OnInventoryChanged;
+    private ItemPickup _currentPickup;
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         _inputSystem = new PlayerInput();
-        Debug.Log($"Inventory array: {_inventorySlots}");
-        Debug.Log($"Inventory size: {_inventorySlots.Length}");
     }
     private void Update()
     {
@@ -26,6 +27,7 @@ public class PlayerInventory : MonoBehaviour
         {
             HandlePickup();
         }
+        UpdatePickupSelection();
     }
     private void OnEnable()
     {
@@ -39,15 +41,34 @@ public class PlayerInventory : MonoBehaviour
     {
         ItemPickup pickup = other.GetComponent<ItemPickup>();
         if (pickup == null) return;
-        Debug.Log("Item baru masuk inventory"+other.name);
+        
+        Debug.Log("[PlayerInventory] new Item in pick up range"+other.name);
         _itemsNearby.Add(pickup);
+
+        if (_currentPickup != null && _currentPickup.HighlightActive)
+        {
+            _currentPickup.DisableHighlight();
+        }
+        _currentPickup = pickup;
+        if (!pickup.HighlightActive) pickup.ActivateHighlight();
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         ItemPickup pickup = other.GetComponent<ItemPickup>();
         if (pickup == null) return;
-        Debug.Log("Item keluar inventory"+other.name);
+        
+        Debug.Log("[PlayerInventory] an item is removed from pick up range"+other.name);
         _itemsNearby.Remove(pickup);
+        if (pickup.HighlightActive)
+        { 
+            pickup.DisableHighlight();
+            _selectedPickup = 0;
+            if (_selectedPickup==_itemsNearby.Count) return;
+            if (_itemsNearby[_selectedPickup] != null)
+            {
+                _itemsNearby[_selectedPickup].ActivateHighlight();
+            }
+        }
     }
     #endregion
 
@@ -56,11 +77,46 @@ public class PlayerInventory : MonoBehaviour
     {
         if (_itemsNearby.Count == 0) return;
         Debug.Log("Ada item baru");
-        ItemPickup targetItem= _itemsNearby[0];
+        ItemPickup targetItem = _itemsNearby[_selectedPickup];
         
         if (targetItem.TryPickup(this))
         {
             _itemsNearby.Remove(targetItem);
+        }
+    }
+    private void UpdatePickupSelection()
+    {
+        if (_itemsNearby.Count > 0)
+        {
+            _selectedPickup = Math.Clamp(_selectedPickup, 0, _itemsNearby.Count);
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                if (_selectedPickup<_itemsNearby.Count-1) 
+                {
+                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    _selectedPickup++;
+                    _itemsNearby[_selectedPickup].ActivateHighlight();
+                    Debug.Log("[PlayerInventory] Index bertambah, current Index: "+_selectedPickup);
+                } else {
+                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    _selectedPickup = 0;
+                    _itemsNearby[_selectedPickup].ActivateHighlight();
+                    Debug.Log("[PlayerInventory] Index bertambah hingga mentok, current Index: "+_selectedPickup);
+                }
+            } else if (Keyboard.current.qKey.wasPressedThisFrame){
+                if (_selectedPickup > 0)
+                {
+                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    _selectedPickup--; 
+                    _itemsNearby[_selectedPickup].ActivateHighlight();
+                    Debug.Log("[PlayerInventory] Index berkurang, current Index: "+_selectedPickup);
+                } else {
+                    _itemsNearby[_selectedPickup].DisableHighlight();
+                    _selectedPickup = _itemsNearby.Count-1;
+                    _itemsNearby[_selectedPickup].ActivateHighlight();
+                  Debug.Log("[PlayerInventory] Index berkurang hingga mentok, current index: "+_selectedPickup);  
+                } 
+            }
         }
     }
     #endregion
@@ -78,7 +134,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 //Trigger event UI
                 _inventorySlots[a].AddToStack();
-                OnInventoryChanged?.Invoke(a, addedItem);
+                OnInventoryChanged?.Invoke(a, _inventorySlots[a]);
                 Debug.Log("Item added to the existing stack");
                 return true;
             }

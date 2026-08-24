@@ -11,7 +11,7 @@ public class SlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _itemAmount;
     public void UpdateItemInfo(Sprite icon, int amount)
     {
-        Debug.Log("UI berhasil diubah");
+        Debug.Log("[SlotUI] UI berhasil diubah, current amount = "+amount);
         this._iconImage.sprite = icon;
         _itemAmount.text = amount+"X";
     }
