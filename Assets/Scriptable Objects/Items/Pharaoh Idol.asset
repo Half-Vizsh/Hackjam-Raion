@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Pharaoh Idol
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Pharaoh Idol
-  ItemID: 1
+  itemID: 0
+  itemWeight: 5
   icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  itemType: 1
+  itemType: 2
   sellValue: 0

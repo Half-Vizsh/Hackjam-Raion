@@ -8,13 +8,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - PlayerCollider
   - Water
   - UI
   - Ground
   - TreasureHitbox
   - TreasurePickup
-  - 
+  - PlatformCollider
   - 
   - 
   - 

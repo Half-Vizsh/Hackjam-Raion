@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f087408edac5745b1081113992dc26, type: 3}
   m_Name: Golden Skull
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Golden Skull
-  ItemID: 2
+  itemName: Sarcophagus
+  itemID: 5
+  itemWeight: 20
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  itemType: 0
+  itemType: 1
   sellValue: 0

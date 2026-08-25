@@ -25,6 +25,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _cutGravity;
     [SerializeField] private float _normalGravity;
     [SerializeField] private float _fallGravity;
+    [Header("Platform Interaction")]
+    [SerializeField] private Collider2D _playerCollider;
+    [SerializeField]private float _checkerLength;
+    [SerializeField] private float _ignorePlatDur;
+    private float _ignorePlatTime;
+    private Collider2D _ignoredPlatform;
     #endregion
 
     #region Unity Methods
@@ -45,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     {
         ReadMoveInput();
         ReadJumpInput();
+        ReadDownInput();
     }
     private void FixedUpdate()
     {
@@ -75,6 +82,26 @@ public class PlayerMovement : MonoBehaviour
         {
             _jumpRequest = true;
         }        
+    }
+    private void ReadDownInput()
+    {
+        if (_ignorePlatTime > 0)
+        {
+            _ignorePlatTime-=Time.deltaTime;
+            if (_ignorePlatTime <= 0)
+            {
+                Physics2D.IgnoreCollision(
+                    _playerCollider,
+                    _ignoredPlatform,
+                    false
+                );
+                _ignoredPlatform = null;
+            }
+        }
+        if (_inputSystem.Player.Down.WasPressedThisFrame())
+        {
+            TryDropThroughPlatform();
+        }
     }
     private void ApplyMovement()
     {
@@ -123,6 +150,28 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyVelocity()
     {
         _rigidbody2D.linearVelocity = _modifiedVelocity;
+    }
+    private Collider2D FindPlatformUnder()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _checkerLength, _groundLayer);
+        if (hit.collider == null) return null; 
+
+        PlaceableItem platform = hit.collider.GetComponent<PlaceableItem>();
+        if (platform == null) return null;
+
+        return platform.GetCollider();
+    } 
+    private void TryDropThroughPlatform()
+    {
+        Collider2D platformIgnore = FindPlatformUnder();
+        if(platformIgnore == null) return;
+        DoFallThroughPlatform(platformIgnore);
+    }
+    private void DoFallThroughPlatform(Collider2D platform)
+    {
+        Physics2D.IgnoreCollision(_playerCollider, platform, true);
+        _ignoredPlatform = platform;
+        _ignorePlatTime = _ignorePlatDur;
     }
     #endregion
 

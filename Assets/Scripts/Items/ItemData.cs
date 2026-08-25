@@ -12,8 +12,8 @@ public class ItemData : ScriptableObject
 {
     public string itemName;
     public int itemID;
-    public int itemWeight;
+    public float itemWeight;
     public Sprite icon;
     public ItemType itemType;
-    public int sellValue;
+    public float sellValue;
 }
