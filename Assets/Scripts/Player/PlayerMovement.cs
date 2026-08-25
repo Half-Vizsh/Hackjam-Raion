@@ -5,10 +5,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("General")]
     [SerializeField] private PlayerInput _inputSystem;
     [SerializeField] private Rigidbody2D _rigidbody2D;
-    private Vector2 modifiedVelocity;
+    private Vector2 _modifiedVelocity;
     [Header("Movement")]
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _runSpeed;
     private Vector2 moveDirection;
+    private bool _runRequested;
     [Header("Jumping")]
     [SerializeField] private float _jumpForce;
     [SerializeField] private LayerMask _groundLayer;
@@ -46,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        modifiedVelocity = _rigidbody2D.linearVelocity;
+        _modifiedVelocity = _rigidbody2D.linearVelocity;
         ApplyMovement();
         ApplyGrounded();
         ApplyJump();
@@ -64,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     private void ReadMoveInput()
     {
         moveDirection = _inputSystem.Player.Movement.ReadValue<Vector2>();
+        _runRequested = _inputSystem.Player.Run.IsPressed();
     }
     private void ReadJumpInput()
     {
@@ -75,7 +78,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void ApplyMovement()
     {
-        modifiedVelocity.x = _moveSpeed * moveDirection.x;
+        if (_runRequested)
+        {
+            _modifiedVelocity.x = _runSpeed * moveDirection.x;
+        } else {
+            _modifiedVelocity.x = _moveSpeed * moveDirection.x;
+        }
     }
     private void ApplyJump()
     {
@@ -83,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (_coyoteTimer <= 0) return; 
 
-        modifiedVelocity.y = _jumpForce;
+        _modifiedVelocity.y = _jumpForce;
         _jumpRequest = false;
         _coyoteTimer = 0;
     }
@@ -114,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void ApplyVelocity()
     {
-        _rigidbody2D.linearVelocity = modifiedVelocity;
+        _rigidbody2D.linearVelocity = _modifiedVelocity;
     }
     #endregion
 

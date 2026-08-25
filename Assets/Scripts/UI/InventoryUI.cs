@@ -14,15 +14,16 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         _playerInventory = FindFirstObjectByType<PlayerInventory>();
+        _playerInventory.OnInventoryChanged += ChangeSlotUI;
+        _playerInventory.OnSlotChanged += ChangeChoosenSlot;
     }
     private void Start()
     {
-        _playerInventory.OnInventoryChanged += ChangeSlotUI;
-        _playerInventory.OnSlotChanged += ChangeChoosenSlot;
     }
     private void OnDisable()
     {
         _playerInventory.OnInventoryChanged -= ChangeSlotUI;
+        _playerInventory.OnSlotChanged -= ChangeChoosenSlot;
     }
     #endregion
 

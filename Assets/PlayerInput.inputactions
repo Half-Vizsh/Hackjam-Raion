@@ -25,9 +25,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pickup",
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "e3aff199-2749-423a-bf11-0dc2d71f607c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Collect",
                     "type": "Button",
                     "id": "97d9d25e-c230-447f-896f-b23dec37eab6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Drop",
+                    "type": "Button",
+                    "id": "1c8ad233-c2ff-4850-b4f2-8b9b0687ab62",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -166,11 +184,11 @@
                 {
                     "name": "",
                     "id": "8b5a4342-1234-4f57-9f3f-43861b51f5da",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pickup",
+                    "action": "Collect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -292,6 +310,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f037ffc-191c-4b05-8a35-e6797ebba7a6",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed59815d-66d0-404c-9852-cd2d7cafd9c4",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
