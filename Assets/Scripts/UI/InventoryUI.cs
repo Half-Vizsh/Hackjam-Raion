@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     SlotUI[] uiSlots = new SlotUI [10];
     [SerializeField] private PlayerInventory _playerInventory;
+    public event Action <ItemStack> OnChoosenSlotChange;
+    public event Action <ItemStack> OnNewItemAdded;
     private int _currentSelectedIdx;
     #endregion
 
@@ -16,9 +19,6 @@ public class InventoryUI : MonoBehaviour
         _playerInventory = FindFirstObjectByType<PlayerInventory>();
         _playerInventory.OnInventoryChanged += ChangeSlotUI;
         _playerInventory.OnSlotChanged += ChangeChoosenSlot;
-    }
-    private void Start()
-    {
     }
     private void OnDisable()
     {
@@ -31,12 +31,14 @@ public class InventoryUI : MonoBehaviour
     private void ChangeSlotUI(int slotIdx, ItemStack item)
     {
         uiSlots[slotIdx].UpdateItemInfo(item.ItemData.icon, item.Amount);
+        OnNewItemAdded?.Invoke(item);
     }
-    private void ChangeChoosenSlot(int newIdx)
+    private void ChangeChoosenSlot(int newIdx, ItemStack item)
     {
         uiSlots[_currentSelectedIdx].DisableSelectedSlot();
         uiSlots[newIdx].ActivateSelectedSlot();
         _currentSelectedIdx = newIdx;
+        OnChoosenSlotChange?.Invoke(item);
     }
     #endregion
 

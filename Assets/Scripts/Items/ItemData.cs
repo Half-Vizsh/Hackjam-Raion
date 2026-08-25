@@ -11,7 +11,8 @@ public enum ItemType
 public class ItemData : ScriptableObject
 {
     public string itemName;
-    public int ItemID;
+    public int itemID;
+    public int itemWeight;
     public Sprite icon;
     public ItemType itemType;
     public int sellValue;

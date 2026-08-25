@@ -16,7 +16,7 @@ public class PlayerInventory : MonoBehaviour
     private List<ItemPickup> _itemsNearby = new List<ItemPickup>();
     [Header("Select Inventory")]
     [SerializeField] private int _selectedInventoryIdx;
-    public event Action <int> OnSlotChanged;
+    public event Action <int, ItemStack> OnSlotChanged;
     private int _currentSlotIdx =0;
     #endregion
 
@@ -27,7 +27,7 @@ public class PlayerInventory : MonoBehaviour
     }
     private void Start()
     {
-        OnSlotChanged?.Invoke(_currentSlotIdx);
+        OnSlotChanged?.Invoke(_currentSlotIdx, _inventorySlots[_currentSlotIdx]);
     }
     private void Update()
     {
@@ -69,16 +69,16 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log("[PlayerInventory] an item is removed from pick up range" + other.name);
         _itemsNearby.Remove(pickup);
-        if (pickup.HighlightActive)
+        // if (pickup.HighlightActive)
+        // {
+        pickup.DisableHighlight();
+        _selectedPickupIdx = 0;
+        if (_selectedPickupIdx == _itemsNearby.Count) return;
+        if (_itemsNearby[_selectedPickupIdx] != null)
         {
-            pickup.DisableHighlight();
-            _selectedPickupIdx = 0;
-            if (_selectedPickupIdx == _itemsNearby.Count) return;
-            if (_itemsNearby[_selectedPickupIdx] != null)
-            {
-                _itemsNearby[_selectedPickupIdx].ActivateHighlight();
-            }
+            _itemsNearby[_selectedPickupIdx].ActivateHighlight();
         }
+        // }
     }
     #endregion
 
@@ -98,7 +98,7 @@ public class PlayerInventory : MonoBehaviour
         //To update Highlight for selection 
         if (_itemsNearby.Count <= 0) return;
 
-        _selectedPickupIdx = Math.Clamp(_selectedPickupIdx, 0, _itemsNearby.Count);
+        _selectedPickupIdx = Math.Clamp(_selectedPickupIdx, 0, _itemsNearby.Count-1);
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
             if (_selectedPickupIdx < _itemsNearby.Count - 1)
@@ -141,7 +141,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (parsingIdx == 0) _currentSlotIdx = _inventorySlots.Count() - 1; //Biar keyboard 0 return index 9
             else _currentSlotIdx = parsingIdx - 1;               
-            OnSlotChanged?.Invoke(_currentSlotIdx);
+            OnSlotChanged?.Invoke(_currentSlotIdx, _inventorySlots[_currentSlotIdx]);
         }
     }
     #endregion
