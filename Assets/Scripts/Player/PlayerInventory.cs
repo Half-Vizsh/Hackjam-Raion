@@ -43,9 +43,11 @@ public class PlayerInventory : MonoBehaviour
     {
         _inputSystem.Enable();
         _inputSystem.Player.Hotbar.performed += ChangeSelected;
+        _inputSystem.Player.HotbarScroll.performed += HandleHotbarScroll;
     }
     private void OnDisable()
     {
+        _inputSystem.Player.HotbarScroll.performed -= HandleHotbarScroll;
         _inputSystem.Player.Hotbar.performed -= ChangeSelected;
         _inputSystem.Disable();
     }
@@ -108,6 +110,24 @@ public class PlayerInventory : MonoBehaviour
             else _currentSlotIdx = parsingIdx - 1;               
             OnSlotChanged?.Invoke(_currentSlotIdx, _inventorySlots[_currentSlotIdx]);
         }
+    }
+    private void HandleHotbarScroll(InputAction.CallbackContext ctx)
+    {
+        Vector2 scroll = ctx.ReadValue<Vector2>();
+        if (scroll.y > 0)
+        {
+            if (_currentSlotIdx < _inventorySlots.Count()-1) _currentSlotIdx++;
+            else _currentSlotIdx = 0;
+        } else if (scroll.y < 0)
+        {
+            if (_currentSlotIdx > 0) _currentSlotIdx--;
+            else _currentSlotIdx = _inventorySlots.Count()-1;
+        }
+        OnSlotChanged?.Invoke(_currentSlotIdx, _inventorySlots[_currentSlotIdx]);
+    }
+    private void TryUseItem(ItemPickup usedItem)
+    {
+        
     }
     #endregion
 
