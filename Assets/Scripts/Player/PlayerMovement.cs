@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables

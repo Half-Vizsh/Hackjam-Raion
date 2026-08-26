@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Ruby
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Ruby
-  ItemID: 0
+  itemID: 0
+  itemWeight: 0
   icon: {fileID: -4286765431809230395, guid: fe9de8e2d8a2978429ef6bee79291c30, type: 3}
   itemType: 0
   sellValue: 0
+  projectilePrefab: {fileID: 9139425219332849963, guid: c4a2a1ae62754994c8e6e74c3f2dcb9a, type: 3}

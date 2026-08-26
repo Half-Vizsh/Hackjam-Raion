@@ -30,7 +30,7 @@ public class InventoryUI : MonoBehaviour
     #region Private Methods
     private void ChangeSlotUI(int slotIdx, ItemStack item)
     {
-        uiSlots[slotIdx].UpdateItemInfo(item.ItemData.icon, item.Amount);
+        uiSlots[slotIdx].UpdateItemInfo(item);
         OnNewItemAdded?.Invoke(item);
     }
     private void ChangeChoosenSlot(int newIdx, ItemStack item)

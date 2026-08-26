@@ -156,6 +156,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""CancelAim"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3e520ef-4bf9-4030-bff8-826b50a3b878"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Hotbar"",
                     ""type"": ""Button"",
                     ""id"": ""363856cf-252d-4c48-990e-433bc91ee933"",
@@ -471,6 +480,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""647bc682-d230-4bd5-b1f5-6592a9be6ea9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelAim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -492,6 +512,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Collect = m_Player.FindAction("Collect", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
+        m_Player_CancelAim = m_Player.FindAction("CancelAim", throwIfNotFound: true);
         m_Player_Hotbar = m_Player.FindAction("Hotbar", throwIfNotFound: true);
         m_Player_HotbarScroll = m_Player.FindAction("HotbarScroll", throwIfNotFound: true);
     }
@@ -581,6 +602,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Collect;
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_Use;
+    private readonly InputAction m_Player_CancelAim;
     private readonly InputAction m_Player_Hotbar;
     private readonly InputAction m_Player_HotbarScroll;
     /// <summary>
@@ -622,6 +644,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Use".
         /// </summary>
         public InputAction @Use => m_Wrapper.m_Player_Use;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/CancelAim".
+        /// </summary>
+        public InputAction @CancelAim => m_Wrapper.m_Player_CancelAim;
         /// <summary>
         /// Provides access to the underlying input action "Player/Hotbar".
         /// </summary>
@@ -677,6 +703,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Use.started += instance.OnUse;
             @Use.performed += instance.OnUse;
             @Use.canceled += instance.OnUse;
+            @CancelAim.started += instance.OnCancelAim;
+            @CancelAim.performed += instance.OnCancelAim;
+            @CancelAim.canceled += instance.OnCancelAim;
             @Hotbar.started += instance.OnHotbar;
             @Hotbar.performed += instance.OnHotbar;
             @Hotbar.canceled += instance.OnHotbar;
@@ -715,6 +744,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Use.started -= instance.OnUse;
             @Use.performed -= instance.OnUse;
             @Use.canceled -= instance.OnUse;
+            @CancelAim.started -= instance.OnCancelAim;
+            @CancelAim.performed -= instance.OnCancelAim;
+            @CancelAim.canceled -= instance.OnCancelAim;
             @Hotbar.started -= instance.OnHotbar;
             @Hotbar.performed -= instance.OnHotbar;
             @Hotbar.canceled -= instance.OnHotbar;
@@ -823,6 +855,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUse(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CancelAim" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCancelAim(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Hotbar" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

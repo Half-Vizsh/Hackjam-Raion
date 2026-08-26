@@ -14,18 +14,21 @@ public class PlayerInventory : MonoBehaviour
     [Header("Pick Up")]
     [SerializeField] private int _selectedPickupIdx;
     private List<ItemPickup> _itemsNearby = new List<ItemPickup>();
-    [Header("Select Inventory")]
-    [SerializeField] private int _selectedInventoryIdx;
     private ItemPickup _currentClosest;
+    [Header("Select Inventory")]
+    [SerializeField] private int _currentSlotIdx = 0;
     public event Action <int, ItemStack> OnSlotChanged;
-    private int _currentSlotIdx =0;
-    
+    private ItemStack _currentSelected;
+    public ItemStack GetCurrentSelected () => _currentSelected;
+    [Header("Delete Item From Inventory")]
+    private PlayerUseController _useController;
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         _inputSystem = new PlayerInput();
+        _useController = GetComponent<PlayerUseController>();
     }
     private void Start()
     {
@@ -38,17 +41,20 @@ public class PlayerInventory : MonoBehaviour
             HandlePickup();
         }
         UpdateClosest();
+        _currentSelected = _inventorySlots[_currentSlotIdx];
     }
     private void OnEnable()
     {
         _inputSystem.Enable();
         _inputSystem.Player.Hotbar.performed += ChangeSelected;
         _inputSystem.Player.HotbarScroll.performed += HandleHotbarScroll;
+        _useController.OnItemUsed += HandleItemUsed;
     }
     private void OnDisable()
     {
         _inputSystem.Player.HotbarScroll.performed -= HandleHotbarScroll;
         _inputSystem.Player.Hotbar.performed -= ChangeSelected;
+        _useController.OnItemUsed -= HandleItemUsed;
         _inputSystem.Disable();
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -125,9 +131,10 @@ public class PlayerInventory : MonoBehaviour
         }
         OnSlotChanged?.Invoke(_currentSlotIdx, _inventorySlots[_currentSlotIdx]);
     }
-    private void TryUseItem(ItemPickup usedItem)
+    private void HandleItemUsed()
     {
-        
+        _inventorySlots[_currentSlotIdx] = null;
+        OnInventoryChanged?.Invoke(_currentSlotIdx, null);
     }
     #endregion
 

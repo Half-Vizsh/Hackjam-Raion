@@ -9,11 +9,10 @@ public class SlotUI : MonoBehaviour
     [SerializeField] private Image _slotBase;
     [SerializeField] private Image _iconImage;
     [SerializeField] private TextMeshProUGUI _itemAmount;
-    public void UpdateItemInfo(Sprite icon, int amount)
+    public void UpdateItemInfo(ItemStack item)
     {
-        Debug.Log("[SlotUI] UI berhasil diubah, current amount = "+amount);
-        this._iconImage.sprite = icon;
-        _itemAmount.text = amount+"X";
+        if (item!=null) this._iconImage.sprite = item.ItemData.icon;
+        else this._iconImage.sprite = null;
     }
     public void ActivateSelectedSlot()
     {

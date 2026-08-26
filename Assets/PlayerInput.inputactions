@@ -70,6 +70,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "CancelAim",
+                    "type": "Button",
+                    "id": "a3e520ef-4bf9-4030-bff8-826b50a3b878",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Hotbar",
                     "type": "Button",
                     "id": "363856cf-252d-4c48-990e-433bc91ee933",
@@ -383,6 +392,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "647bc682-d230-4bd5-b1f5-6592a9be6ea9",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelAim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
