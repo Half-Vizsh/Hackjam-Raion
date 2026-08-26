@@ -395,6 +395,7 @@ MonoBehaviour:
     _amount: 1
   _highlightChild: {fileID: 1326156314814213694}
   _highlightActive: 0
+  _noConstraintDur: 1.5
 --- !u!61 &6124967340496782402
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -456,7 +457,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -467,4 +468,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 6

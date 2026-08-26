@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Treasure
+  - PlayerPickup
   layers:
   - Default
   - TransparentFX

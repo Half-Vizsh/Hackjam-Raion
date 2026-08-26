@@ -16,8 +16,10 @@ public class PlayerUseController : MonoBehaviour
     private Vector2 _targetPos;
     private Vector2 _playerPos;
     [Header("Throwing")]
-    [SerializeField] private Transform _shootingPoint;
+    [SerializeField] private Transform shootingPoint;
     [SerializeField] private float _throwingPower;
+    [Header("Placement")]
+    [SerializeField]private Transform placingPoint;
     #endregion
     #region Unity Methods;
     private void Awake()
@@ -31,7 +33,7 @@ public class PlayerUseController : MonoBehaviour
         Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
         mouseScreenPos.z = -Camera.main.transform.position.z;
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-        _targetPos = ((Vector2)mouseWorldPos - (Vector2)_shootingPoint.position).normalized;
+        _targetPos = ((Vector2)mouseWorldPos - (Vector2)shootingPoint.position).normalized;
         
         AdjustInputReading(_playerInventory.GetCurrentSelected());
     }
@@ -64,7 +66,7 @@ public class PlayerUseController : MonoBehaviour
     }
     private void ReadAimInput()
     {
-        Debug.DrawLine(_shootingPoint.position, (Vector2)_shootingPoint.position + _targetPos * 5f, Color.red);
+        Debug.DrawLine(shootingPoint.position, (Vector2)shootingPoint.position + _targetPos * 5f, Color.red);
         // Mulai aiming
         if (_inputSystem.Player.Use.WasPressedThisFrame())
         {
@@ -93,7 +95,7 @@ public class PlayerUseController : MonoBehaviour
     {
         if (_playerSM.CurrentState != PlayerState.Aiming) return;
         Debug.Log("TEMBAK");
-        GameObject launchedProjectile = Instantiate(UsedItem.ItemData.physicalPrefab, _shootingPoint.position, quaternion.identity);
+        GameObject launchedProjectile = Instantiate(UsedItem.ItemData.physicalPrefab, shootingPoint.position, quaternion.identity);
         Rigidbody2D projectileRB = launchedProjectile.GetComponent<Rigidbody2D>();
         projectileRB.AddForce(_targetPos*_throwingPower, ForceMode2D.Impulse);
         OnItemUsed?.Invoke();
@@ -107,7 +109,7 @@ public class PlayerUseController : MonoBehaviour
     }
     private void HandlePlacement(ItemStack placedItem)
     {
-        GameObject placedObject = Instantiate(placedItem.ItemData.physicalPrefab, _shootingPoint.position, quaternion.identity);
+        GameObject placedObject = Instantiate(placedItem.ItemData.physicalPrefab, placingPoint.position, quaternion.identity);
         OnItemUsed?.Invoke();
     }
     #endregion

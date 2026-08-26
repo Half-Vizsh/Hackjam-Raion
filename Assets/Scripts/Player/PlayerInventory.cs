@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +21,10 @@ public class PlayerInventory : MonoBehaviour
     public ItemStack GetCurrentSelected () => _currentSelected;
     [Header("Delete Item From Inventory")]
     private PlayerUseController _useController;
+    [Header("Weight System")]
+    [SerializeField] private float _maxWeight;
+    private float _currentWeight;
+    public event Action <float> OnWeightChanged;
     #endregion
 
     #region Unity Methods
@@ -33,6 +36,7 @@ public class PlayerInventory : MonoBehaviour
     private void Start()
     {
         OnSlotChanged?.Invoke(_currentSlotIdx, _inventorySlots[_currentSlotIdx]);
+        RecalculateWeight();
     }
     private void Update()
     {
@@ -88,6 +92,7 @@ public class PlayerInventory : MonoBehaviour
         if (targetItem.TryPickup(this))
         {
             _itemsNearby.Remove(targetItem);
+            RecalculateWeight();
         }
     }
     private void UpdateClosest() 
@@ -135,6 +140,17 @@ public class PlayerInventory : MonoBehaviour
     {
         _inventorySlots[_currentSlotIdx] = null;
         OnInventoryChanged?.Invoke(_currentSlotIdx, null);
+        RecalculateWeight();
+    }
+    private void RecalculateWeight()
+    {
+        _currentWeight = 0;
+        foreach(ItemStack item in _inventorySlots)
+        {
+            if (item == null) continue;
+            _currentWeight += item.ItemData.itemWeight;
+        }
+        OnWeightChanged?.Invoke(_currentWeight/_maxWeight);
     }
     #endregion
 

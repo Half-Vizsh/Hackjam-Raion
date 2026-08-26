@@ -37,7 +37,7 @@ public class DoorPuzzle : MonoBehaviour
 
         if (Vector3.Distance(DoorObject.position, OpenPoint.position) <= 0.01f)
         {
-            transform.position = OpenPoint.position;
+            DoorObject.position = OpenPoint.position;
             _doorOpen = false;
         }
     }
