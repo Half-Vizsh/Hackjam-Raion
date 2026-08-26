@@ -18,9 +18,6 @@ public class PlayerUseController : MonoBehaviour
     [Header("Throwing")]
     [SerializeField] private Transform _shootingPoint;
     [SerializeField] private float _throwingPower;
-    private bool _aimPressed;
-    private bool _aimReleased;
-    private bool _aimCanceled;
     #endregion
     #region Unity Methods;
     private void Awake()
@@ -31,21 +28,12 @@ public class PlayerUseController : MonoBehaviour
     private void Update()
     {
         _playerPos = transform.position;
-
-    Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
-    mouseScreenPos.z = -Camera.main.transform.position.z;
-
-    Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-
-    _targetPos = ((Vector2)mouseWorldPos - (Vector2)_shootingPoint.position).normalized;
-
-    Debug.DrawLine(
-        _shootingPoint.position,
-        (Vector2)_shootingPoint.position + _targetPos * 5f,
-        Color.red
-    );
-
-    AdjustInputReading(_playerInventory.GetCurrentSelected());
+        Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
+        mouseScreenPos.z = -Camera.main.transform.position.z;
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+        _targetPos = ((Vector2)mouseWorldPos - (Vector2)_shootingPoint.position).normalized;
+        
+        AdjustInputReading(_playerInventory.GetCurrentSelected());
     }
     private void OnEnable()
     {
@@ -59,21 +47,30 @@ public class PlayerUseController : MonoBehaviour
     #region Private Methods
     private void ReadAimInput()
     {
-        _aimPressed = _inputSystem.Player.Use.IsPressed();
-        _aimReleased = _inputSystem.Player.Use.WasReleasedThisFrame();
-        _aimCanceled = _inputSystem.Player.CancelAim.WasPressedThisFrame();
-        if (_aimPressed)
+        Debug.DrawLine(_shootingPoint.position, (Vector2)_shootingPoint.position + _targetPos * 5f, Color.red);
+        // Mulai aiming
+        if (_inputSystem.Player.Use.WasPressedThisFrame())
         {
-            if (_aimCanceled)
-            {
-                _playerSM.ChangeState(PlayerState.Idle);
-                _aimPressed = false;
-            }
+            _playerSM.ChangeState(PlayerState.Aiming);
+            return;
         }
-        if (_aimReleased)
+
+        // Hanya membaca input berikutnya kalau sedang aiming
+        if (_playerSM.CurrentState != PlayerState.Aiming)
+            return;
+
+        // RMB = cancel
+        if (_inputSystem.Player.CancelAim.WasPressedThisFrame())
         {
-                _playerSM.ChangeState(PlayerState.Aiming);
-                HandleShoot(_playerInventory.GetCurrentSelected());
+            _playerSM.ChangeState(PlayerState.Idle);
+            return;
+        }
+
+        // LMB dilepas = throw
+        if (_inputSystem.Player.Use.WasReleasedThisFrame())
+        {
+            HandleShoot(_playerInventory.GetCurrentSelected());
+            _playerSM.ChangeState(PlayerState.Idle);
         }
     }
     private void HandleShoot(ItemStack UsedItem)
