@@ -20,6 +20,11 @@ public class PlayerUseController : MonoBehaviour
     [SerializeField] private float _throwingPower;
     [Header("Placement")]
     [SerializeField]private Transform placingPoint;
+    [Header("Trajectory Line")]
+    [SerializeField] private LineRenderer _trajectoryLine;
+    [SerializeField] private int _trajectoryPoints = 30;
+    [SerializeField] private float _trajectoryTimeStep = 0.05f;
+    [SerializeField] private LayerMask _trajectoryCollisionLayer;    
     #endregion
     #region Unity Methods;
     private void Awake()
@@ -67,26 +72,24 @@ public class PlayerUseController : MonoBehaviour
     private void ReadAimInput()
     {
         Debug.DrawLine(shootingPoint.position, (Vector2)shootingPoint.position + _targetPos * 5f, Color.red);
-        // Mulai aiming
         if (_inputSystem.Player.Use.WasPressedThisFrame())
         {
             _playerSM.ChangeState(PlayerState.Aiming);
             return;
         }
-        // Hanya membaca input berikutnya kalau sedang aiming
-        if (_playerSM.CurrentState != PlayerState.Aiming)
-            return;
+        if (_playerSM.CurrentState != PlayerState.Aiming) return;
 
-        // RMB = cancel
+        _trajectoryLine.enabled = true;
+        DrawTrajectory();
         if (_inputSystem.Player.CancelAim.WasPressedThisFrame())
         {
+            _trajectoryLine.enabled = false;
             _playerSM.ChangeState(PlayerState.Idle);
             return;
         }
-
-        // LMB dilepas = throw
         if (_inputSystem.Player.Use.WasReleasedThisFrame())
         {
+            _trajectoryLine.enabled = false;
             HandleShoot(_playerInventory.GetCurrentSelected());
             _playerSM.ChangeState(PlayerState.Idle);
         }
@@ -113,6 +116,61 @@ public class PlayerUseController : MonoBehaviour
         GameObject placedObject = Instantiate(placedItem.ItemData.physicalPrefab, placingPoint.position, quaternion.identity);
         OnItemUsed?.Invoke();
     }
+private void DrawTrajectory()
+{
+    Rigidbody2D rb = _playerInventory
+        .GetCurrentSelected()
+        .ItemData.physicalPrefab
+        .GetComponent<Rigidbody2D>();
+
+    Vector2 startPosition = shootingPoint.position;
+
+    Vector2 velocity =
+        _targetPos * _throwingPower / rb.mass;
+
+    Vector2 gravity =
+        Physics2D.gravity * rb.gravityScale;
+
+    _trajectoryLine.positionCount = _trajectoryPoints;
+
+    Vector2 previousPosition = startPosition;
+
+    int pointCount = 0;
+
+    for (int i = 1; i <= _trajectoryPoints; i++)
+    {
+        float time = i * _trajectoryTimeStep;
+
+        Vector2 currentPosition =
+            startPosition +
+            velocity * time +
+            0.5f * gravity * time * time;
+
+        Vector2 direction = currentPosition - previousPosition;
+        float distance = direction.magnitude;
+
+        RaycastHit2D hit = Physics2D.Raycast(
+            previousPosition,
+            direction.normalized,
+            distance,
+            _trajectoryCollisionLayer
+        );
+
+        if (hit.collider != null)
+        {
+            _trajectoryLine.positionCount = pointCount + 1;
+            _trajectoryLine.SetPosition(pointCount, hit.point);
+            return;
+        }
+
+        _trajectoryLine.SetPosition(pointCount, currentPosition);
+
+        previousPosition = currentPosition;
+        pointCount++;
+    }
+
+    _trajectoryLine.positionCount = pointCount;
+}
     #endregion
     #region Public Methods
     #endregion
