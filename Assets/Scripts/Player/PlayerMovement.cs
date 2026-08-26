@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("General")]
     [SerializeField] private PlayerInput _inputSystem;
     [SerializeField] private Rigidbody2D _rigidbody2D;
+    [SerializeField] private PlayerLife playerLife;
     private Vector2 _modifiedVelocity;
     [Header("Movement")]
     [SerializeField] private float _moveSpeed;
@@ -39,14 +40,11 @@ public class PlayerMovement : MonoBehaviour
     {
         this._rigidbody2D = GetComponent<Rigidbody2D>();
         _inputSystem = new PlayerInput();
+        playerLife = GetComponent<PlayerLife>();
     }
     private void OnEnable()
     {
         _inputSystem.Enable();
-    }
-    private void Start()
-    {
-        
     }
     private void Update()
     {
@@ -57,10 +55,11 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         _modifiedVelocity = _rigidbody2D.linearVelocity;
+        ApplyFall();
+        if (playerLife.IsDead) return;
         ApplyMovement();
         ApplyGrounded();
         ApplyJump();
-        ApplyFall();
 
         ApplyVelocity();    
     }

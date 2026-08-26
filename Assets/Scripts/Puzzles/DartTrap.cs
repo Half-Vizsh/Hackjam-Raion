@@ -7,6 +7,7 @@ public class DartTrap : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform shootingPoint;
     [SerializeField] private float _cdDur;
+    [SerializeField] private float _shootPower;
     private float _cdTimer;
     [SerializeField]private bool _canShoot = true;
     [SerializeField] private bool _isActive = true;
@@ -37,8 +38,11 @@ public class DartTrap : MonoBehaviour
     #region Private Methods
     private void ShootTrap()
     {
-        if (!_canShoot || !_isActive) return;
-        Instantiate(bulletPrefab, shootingPoint.position, quaternion.identity);
+        if (!_canShoot || !_isActive) return;        
+        GameObject dartBullet = Instantiate(bulletPrefab, shootingPoint.position, quaternion.identity);
+        Rigidbody2D projectileRB = dartBullet.GetComponent<Rigidbody2D>();
+        projectileRB.AddForce(Vector2.right * _shootPower, ForceMode2D.Impulse);
+        
         _cdTimer = _cdDur;
     }
     #endregion

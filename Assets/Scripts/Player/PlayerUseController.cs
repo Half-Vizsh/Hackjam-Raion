@@ -96,6 +96,7 @@ public class PlayerUseController : MonoBehaviour
         if (_playerSM.CurrentState != PlayerState.Aiming) return;
         Debug.Log("TEMBAK");
         GameObject launchedProjectile = Instantiate(UsedItem.ItemData.physicalPrefab, shootingPoint.position, quaternion.identity);
+        launchedProjectile.GetComponent<ItemPickup>().MakeFragile();
         Rigidbody2D projectileRB = launchedProjectile.GetComponent<Rigidbody2D>();
         projectileRB.AddForce(_targetPos*_throwingPower, ForceMode2D.Impulse);
         OnItemUsed?.Invoke();

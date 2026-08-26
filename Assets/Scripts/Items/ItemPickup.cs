@@ -9,9 +9,15 @@ public class ItemPickup : MonoBehaviour, IPickupable
     [SerializeField] private GameObject _highlightChild;
     [SerializeField] private bool _highlightActive = false;
     public bool HighlightActive => _highlightActive;
+    private bool _isFragile = false;
     #endregion
 
     #region Unity Method
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!_isFragile) return;
+        Destroy(gameObject);
+    }
     #endregion
 
     #region Private Methods
@@ -39,6 +45,10 @@ public class ItemPickup : MonoBehaviour, IPickupable
     {
         this._highlightChild.SetActive(false);
         _highlightActive = false;
+    }
+    public void MakeFragile()
+    {
+        _isFragile = true;
     }
     #endregion
 }
