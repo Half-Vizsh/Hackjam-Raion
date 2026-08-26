@@ -16,5 +16,5 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public ItemType itemType;
     public float sellValue;
-    public GameObject projectilePrefab;
+    public GameObject physicalPrefab;
 }

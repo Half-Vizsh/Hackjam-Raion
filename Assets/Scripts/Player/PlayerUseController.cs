@@ -45,6 +45,23 @@ public class PlayerUseController : MonoBehaviour
     }
     #endregion
     #region Private Methods
+    public void AdjustInputReading (ItemStack usedItem)
+    {
+        if (usedItem == null) return;
+        switch (usedItem.ItemData.itemType)
+        {
+            case ItemType.Throwable:
+                ReadAimInput();
+                break;
+            case ItemType.Placeable:
+                ReadPlacingInput();
+                break;
+            case ItemType.Valuable:
+                break;
+            default:
+                break;
+        }
+    }
     private void ReadAimInput()
     {
         Debug.DrawLine(_shootingPoint.position, (Vector2)_shootingPoint.position + _targetPos * 5f, Color.red);
@@ -54,7 +71,6 @@ public class PlayerUseController : MonoBehaviour
             _playerSM.ChangeState(PlayerState.Aiming);
             return;
         }
-
         // Hanya membaca input berikutnya kalau sedang aiming
         if (_playerSM.CurrentState != PlayerState.Aiming)
             return;
@@ -77,7 +93,7 @@ public class PlayerUseController : MonoBehaviour
     {
         if (_playerSM.CurrentState != PlayerState.Aiming) return;
         Debug.Log("TEMBAK");
-        GameObject launchedProjectile = Instantiate(UsedItem.ItemData.projectilePrefab, _shootingPoint.position, quaternion.identity);
+        GameObject launchedProjectile = Instantiate(UsedItem.ItemData.physicalPrefab, _shootingPoint.position, quaternion.identity);
         Rigidbody2D projectileRB = launchedProjectile.GetComponent<Rigidbody2D>();
         projectileRB.AddForce(_targetPos*_throwingPower, ForceMode2D.Impulse);
         OnItemUsed?.Invoke();
@@ -86,31 +102,15 @@ public class PlayerUseController : MonoBehaviour
     {
         if (_inputSystem.Player.Use.WasPressedThisFrame())
         {
-            HandlePlacement();
+            HandlePlacement(_playerInventory.GetCurrentSelected());
         }
     }
-    private void HandlePlacement()
+    private void HandlePlacement(ItemStack placedItem)
     {
-        
+        GameObject placedObject = Instantiate(placedItem.ItemData.physicalPrefab, _shootingPoint.position, quaternion.identity);
+        OnItemUsed?.Invoke();
     }
     #endregion
     #region Public Methods
-    public void AdjustInputReading (ItemStack usedItem)
-    {
-        if (usedItem == null) return;
-        switch (usedItem.ItemData.itemType)
-        {
-            case ItemType.Throwable:
-                ReadAimInput();
-                break;
-            case ItemType.Placeable:
-                ReadPlacingInput();
-                break;
-            case ItemType.Valuable:
-                break;
-            default:
-                break;
-        }
-    }
     #endregion
 }

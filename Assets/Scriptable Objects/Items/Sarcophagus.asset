@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8f087408edac5745b1081113992dc26, type: 3}
-  m_Name: Golden Skull
+  m_Name: Sarcophagus
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Sarcophagus
   itemID: 5
@@ -18,3 +18,4 @@ MonoBehaviour:
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   itemType: 1
   sellValue: 0
+  physicalPrefab: {fileID: 8318969389713030268, guid: f96761161ca421d45ba25ebad08890c7, type: 3}

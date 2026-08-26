@@ -91,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
             _ignorePlatTime-=Time.deltaTime;
             if (_ignorePlatTime <= 0)
             {
+                if (_ignoredPlatform == null) return;
                 Physics2D.IgnoreCollision(
                     _playerCollider,
                     _ignoredPlatform,
