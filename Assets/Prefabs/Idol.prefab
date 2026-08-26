@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7107117302426516479}
   m_Layer: 8
   m_Name: Idol
-  m_TagString: Untagged
+  m_TagString: Treasure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
