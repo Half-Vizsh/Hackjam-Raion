@@ -10,15 +10,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _modifiedVelocity;
     [Header("Movement")]
     [SerializeField] private float _moveSpeed;
+    private float _actualMovementSpeed;
     [SerializeField] private float _runSpeed;
+    private float _actualRunSpeed;
     private Vector2 moveDirection;
     private bool _runRequested;
     [Header("Jumping")]
     [SerializeField] private float _jumpForce;
+    private float _actualJumpForce;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _checkRadius;
     [SerializeField] private Transform _checkerPos;
-    private bool _isGrounded;
+    [SerializeField]private bool _isGrounded;
     private bool _jumpRequest;
     private bool _jumpPressed;
     [SerializeField] private float _coyoteTime;
@@ -33,6 +36,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _ignorePlatDur;
     private float _ignorePlatTime;
     private Collider2D _ignoredPlatform;
+    [Header("Sinking")]
+    [SerializeField] private float _sinkSpeedMultiplier = 1f;
+    [SerializeField] private float _sinkJumpMultiplier = 1f;
+    [SerializeField]private float _sinkVelocityY = 0f;
+    private bool _isInQuicksand = false;
     #endregion
 
     #region Unity Methods
@@ -51,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
         ReadMoveInput();
         ReadJumpInput();
         ReadDownInput();
+        CalculateRealSpeed();
     }
     private void FixedUpdate()
     {
@@ -108,9 +117,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_runRequested)
         {
-            _modifiedVelocity.x = _runSpeed * moveDirection.x;
+            _modifiedVelocity.x = _actualRunSpeed * moveDirection.x;
         } else {
-            _modifiedVelocity.x = _moveSpeed * moveDirection.x;
+            _modifiedVelocity.x = _actualMovementSpeed * moveDirection.x;
         }
     }
     private void ApplyJump()
@@ -119,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (_coyoteTimer <= 0) return; 
 
-        _modifiedVelocity.y = _jumpForce;
+        _modifiedVelocity.y = _actualJumpForce;
         _jumpRequest = false;
         _coyoteTimer = 0;
     }
@@ -152,6 +161,13 @@ public class PlayerMovement : MonoBehaviour
     {
         _rigidbody2D.linearVelocity = _modifiedVelocity;
     }
+    private void CalculateRealSpeed()
+    {
+        _actualMovementSpeed = _moveSpeed  * _sinkSpeedMultiplier;
+        _actualRunSpeed = _runSpeed * _sinkSpeedMultiplier;
+        _actualJumpForce = _jumpForce * _sinkJumpMultiplier;
+    }
+    
     private Collider2D FindPlatformUnder()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _checkerLength, _groundLayer);
@@ -177,6 +193,19 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Public Methods
+    public void ApplyQuicksandDebuff(float speedMult, float jumpMult, float sinkRate)
+    {
+        _isInQuicksand = true;
+        _sinkSpeedMultiplier = speedMult;
+        _sinkJumpMultiplier = jumpMult;
+        _sinkVelocityY = -sinkRate;
+    }
+    public void RemoveQuicksandDebuff()
+    {
+        _isInQuicksand = false;
+        _sinkSpeedMultiplier = 1f;
+        _sinkJumpMultiplier = 1f;
+    }
     #endregion
 
     #region  Debug
