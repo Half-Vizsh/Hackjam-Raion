@@ -47,5 +47,9 @@ public class ItemPickup : MonoBehaviour, IPickupable
     {
         _isFragile = true;
     }
+    public void Initialize(ItemStack stack)
+    {
+    _itemStack = stack;
+    }
     #endregion
 }

@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
         {
           return;  
         } 
+        if (playerSM.CurrentState == PlayerState.Dead) return;
         ReadMoveInput();
         ReadJumpInput();
         ReadDownInput();
@@ -82,9 +83,9 @@ public class PlayerMovement : MonoBehaviour
             _rigidbody2D.linearVelocityX = 0;
           return;  
         } 
+        if (playerSM.CurrentState == PlayerState.Dead) return;
         _modifiedVelocity = _rigidbody2D.linearVelocity;
         ApplyFall();
-        if (playerLife.IsDead) return;
         ApplyMovement();
         ApplyGrounded();
         ApplyJump();

@@ -37,6 +37,7 @@ public class PlayerAnimatonController : MonoBehaviour
                 animator.SetBool("IsAiming", false);
                 animator.SetBool("IsFalling", false);
                 animator.SetBool("IsLaunching", false);
+                animator.SetBool("IsDead", false);
             break;
             case PlayerState.Running:
                 animator.SetBool("IsJumping", false);

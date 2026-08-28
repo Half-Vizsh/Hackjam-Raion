@@ -28,6 +28,10 @@ public class PlayerStateMachine : MonoBehaviour
         CurrentState = newState;
         Debug.Log("[PlayerStateMachine] Current State: "+CurrentState);
     }
+    public void RespawnState()
+    {
+        CurrentState = PlayerState.Idle;
+    }
     //For handling the aiming and throwing state
     public void ReturnIdle()
     {
