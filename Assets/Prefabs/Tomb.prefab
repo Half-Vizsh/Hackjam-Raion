@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 2518038529961848502}
   - component: {fileID: 6124967340496782402}
   - component: {fileID: 1406883757360342858}
+  - component: {fileID: 1364872412400454940}
   m_Layer: 8
   m_Name: Tomb
   m_TagString: Treasure
@@ -309,7 +310,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8318969389713030268}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.73, y: -0.94, z: 0}
   m_LocalScale: {x: 2.4625, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -395,7 +396,6 @@ MonoBehaviour:
     _amount: 1
   _highlightChild: {fileID: 1326156314814213694}
   _highlightActive: 0
-  _noConstraintDur: 1.5
 --- !u!61 &6124967340496782402
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -469,3 +469,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 6
+--- !u!114 &1364872412400454940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8318969389713030268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7979462b5d8947e458ee1fa481344a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaceableItem
+  _placeableCollider: {fileID: 6726514106560255625}

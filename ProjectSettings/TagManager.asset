@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Treasure
   - PlayerPickup
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PauseController : MonoBehaviour
 {
     public static PauseController instance;
-    private bool _isPause;
+    private bool _isPause = false;
     public bool IsPause => _isPause;
     private void Awake()
     {

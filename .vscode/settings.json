@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Hackjam-Raion.slnx"
+    "dotnet.defaultSolution": "Hackjam Raion.slnx"
 }

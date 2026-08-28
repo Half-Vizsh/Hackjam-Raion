@@ -17,6 +17,7 @@ public class PlayerUseController : MonoBehaviour
     private Vector2 _playerPos;
     [Header("Throwing")]
     [SerializeField] private Transform shootingPoint;
+    [SerializeField] private SpriteRenderer shootingPointSprite;
     [SerializeField] private float _throwingPower;
     [Header("Placement")]
     [SerializeField]private Transform placingPoint;
@@ -34,8 +35,8 @@ public class PlayerUseController : MonoBehaviour
     } 
     private void Update()
     {
-        if (PauseController.instance.IsPause) return;            
-        if (_playerSM.CurrentState == PlayerState.Dead) return;
+        // if (PauseController.instance.IsPause) return;            
+        // if (_playerSM.CurrentState == PlayerState.Dead) return;
 
         _playerPos = transform.position;
         Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
@@ -87,22 +88,24 @@ public class PlayerUseController : MonoBehaviour
         if (_inputSystem.Player.CancelAim.WasPressedThisFrame())
         {
             _trajectoryLine.enabled = false;
-            _playerSM.ChangeState(PlayerState.Idle);
+            _playerSM.CancelAim();
             return;
         }
         if (_inputSystem.Player.Use.WasReleasedThisFrame())
         {
             _trajectoryLine.enabled = false;
             HandleShoot(_playerInventory.GetCurrentSelected());
-            _playerSM.ChangeState(PlayerState.Idle);
+            _playerSM.ReleaseAim();
         }
     }
     private void HandleShoot(ItemStack UsedItem)
     {
         if (_playerSM.CurrentState != PlayerState.Aiming) return;
-        Debug.Log("TEMBAK");
+        Debug.Log("[PlayerUseController] Releasing projectile");
+        
         GameObject launchedProjectile = Instantiate(UsedItem.ItemData.physicalPrefab, shootingPoint.position, quaternion.identity);
         launchedProjectile.GetComponent<ItemPickup>().MakeFragile();
+                
         Rigidbody2D projectileRB = launchedProjectile.GetComponent<Rigidbody2D>();
         projectileRB.AddForce(_targetPos*_throwingPower, ForceMode2D.Impulse);
         OnItemUsed?.Invoke();
@@ -119,8 +122,9 @@ public class PlayerUseController : MonoBehaviour
         GameObject placedObject = Instantiate(placedItem.ItemData.physicalPrefab, placingPoint.position, quaternion.identity);
         OnItemUsed?.Invoke();
     }
-private void DrawTrajectory()
+    private void DrawTrajectory()
 {
+    //AI AI
     Rigidbody2D rb = _playerInventory
         .GetCurrentSelected()
         .ItemData.physicalPrefab
@@ -176,5 +180,13 @@ private void DrawTrajectory()
 }
     #endregion
     #region Public Methods
+    public void DrawThrowingSprite()
+    {
+        shootingPointSprite.sprite = _playerInventory.GetCurrentSelected().ItemData.icon;
+    }
+    public void RemoveThrowingSprite()
+    {
+        shootingPointSprite.sprite = null;        
+    }
     #endregion
 }

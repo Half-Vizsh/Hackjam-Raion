@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,11 +8,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PlayerInput _inputSystem;
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private PlayerLife playerLife;
-    private Vector2 _modifiedVelocity;
+    [SerializeField] private Vector2 _modifiedVelocity;
+    private PlayerStateMachine playerSM;
     [Header("Movement")]
     [SerializeField] private float _moveSpeed;
-    private float _actualMovementSpeed;
     [SerializeField] private float _runSpeed;
+    [SerializeField] private float _maxSpeedDebuff = 0.9f;
+    [SerializeField] private float _maxJumpDebuff = 0.9f;
+    private float _actualMovementSpeed;
     private float _actualRunSpeed;
     private Vector2 moveDirection;
     private bool _runRequested;
@@ -30,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _cutGravity;
     [SerializeField] private float _normalGravity;
     [SerializeField] private float _fallGravity;
+    [Header("Weight System")]
+    [SerializeField] private float _weightSpeedMultiplier = 0f; 
+    [SerializeField] private float _weightJumpMultiplier = 0f; 
+    private PlayerInventory playerInventory;
     [Header("Platform Interaction")]
     [SerializeField] private Collider2D _playerCollider;
     [SerializeField]private float _checkerLength;
@@ -37,10 +45,8 @@ public class PlayerMovement : MonoBehaviour
     private float _ignorePlatTime;
     private Collider2D _ignoredPlatform;
     [Header("Sinking")]
-    [SerializeField] private float _sinkSpeedMultiplier = 1f;
-    [SerializeField] private float _sinkJumpMultiplier = 1f;
-    [SerializeField]private float _sinkVelocityY = 0f;
-    private bool _isInQuicksand = false;
+    [SerializeField] private float _sinkSpeedMultiplier = 0f;
+    [SerializeField] private float _sinkJumpMultiplier = 0f;
     #endregion
 
     #region Unity Methods
@@ -49,13 +55,21 @@ public class PlayerMovement : MonoBehaviour
         this._rigidbody2D = GetComponent<Rigidbody2D>();
         _inputSystem = new PlayerInput();
         playerLife = GetComponent<PlayerLife>();
+        playerInventory = GetComponent<PlayerInventory>();
+        playerSM = GetComponent<PlayerStateMachine>();
     }
     private void OnEnable()
     {
         _inputSystem.Enable();
+        playerInventory.OnWeightChanged += ApplyWeightDebuff;
     }
     private void Update()
     {
+        ApplyFlip();
+        if (playerSM.CurrentState == PlayerState.Aiming || playerSM.CurrentState == PlayerState.Throwing)
+        {
+          return;  
+        } 
         ReadMoveInput();
         ReadJumpInput();
         ReadDownInput();
@@ -63,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (playerSM.CurrentState == PlayerState.Aiming || playerSM.CurrentState == PlayerState.Throwing)
+        {
+            _rigidbody2D.linearVelocityX = 0;
+          return;  
+        } 
         _modifiedVelocity = _rigidbody2D.linearVelocity;
         ApplyFall();
         if (playerLife.IsDead) return;
@@ -75,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         _inputSystem.Disable();
+        playerInventory.OnWeightChanged -= ApplyWeightDebuff;
     }
     #endregion
 
@@ -127,7 +147,6 @@ public class PlayerMovement : MonoBehaviour
         if (!_jumpRequest) return;
         
         if (_coyoteTimer <= 0) return; 
-
         _modifiedVelocity.y = _actualJumpForce;
         _jumpRequest = false;
         _coyoteTimer = 0;
@@ -160,14 +179,50 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyVelocity()
     {
         _rigidbody2D.linearVelocity = _modifiedVelocity;
+        if (!_isGrounded)
+        {
+            playerSM.ChangeState(PlayerState.Jumping);
+            return;
+        } else if (Mathf.Abs(_modifiedVelocity.x)>0.1f)
+        {
+            playerSM.ChangeState(PlayerState.Running);
+        } else
+        {
+            playerSM.ChangeState(PlayerState.Idle);
+        }
     }
     private void CalculateRealSpeed()
     {
-        _actualMovementSpeed = _moveSpeed  * _sinkSpeedMultiplier;
-        _actualRunSpeed = _runSpeed * _sinkSpeedMultiplier;
-        _actualJumpForce = _jumpForce * _sinkJumpMultiplier;
+        _actualMovementSpeed = _moveSpeed - _moveSpeed  * Mathf.Clamp(_sinkSpeedMultiplier+_weightSpeedMultiplier, 0, _maxSpeedDebuff );
+        _actualRunSpeed = _runSpeed - _runSpeed *  Mathf.Clamp (_sinkSpeedMultiplier+_weightSpeedMultiplier, 0, _maxSpeedDebuff);
+        _actualJumpForce = _jumpForce - _jumpForce *  Mathf.Clamp (_sinkJumpMultiplier+_weightJumpMultiplier, 0, _maxJumpDebuff);;
     }
-    
+    private void ApplyFlip()
+    {
+        float flipDirection = 0f;
+        if (playerSM.CurrentState == PlayerState.Aiming)
+        {
+            Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+            Vector3 screenPos = new Vector3(mouseScreenPos.x, mouseScreenPos.y, Camera.main.nearClipPlane);
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            worldPos.z = 0f; 
+            flipDirection = worldPos.x - transform.position.x;
+        }
+        else
+        {
+            flipDirection = moveDirection.x;
+        }
+
+        if (Mathf.Abs(flipDirection) > 0.01f)
+        {
+            float direction = Mathf.Sign(flipDirection);
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x) * direction,
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
+    }
     private Collider2D FindPlatformUnder()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _checkerLength, _groundLayer);
@@ -193,18 +248,20 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void ApplyQuicksandDebuff(float speedMult, float jumpMult, float sinkRate)
+    public void ApplyQuicksandDebuff(float speedMult, float jumpMult)
     {
-        _isInQuicksand = true;
         _sinkSpeedMultiplier = speedMult;
         _sinkJumpMultiplier = jumpMult;
-        _sinkVelocityY = -sinkRate;
     }
     public void RemoveQuicksandDebuff()
     {
-        _isInQuicksand = false;
-        _sinkSpeedMultiplier = 1f;
-        _sinkJumpMultiplier = 1f;
+        _sinkSpeedMultiplier = 0;
+        _sinkJumpMultiplier = 0;
+    }
+    public void ApplyWeightDebuff(float weightPercent)
+    {
+        _weightSpeedMultiplier = weightPercent;
+        _weightJumpMultiplier = weightPercent;
     }
     #endregion
 
