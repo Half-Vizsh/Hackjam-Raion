@@ -225,16 +225,21 @@ public class PlayerMovement : MonoBehaviour
     }
     private Collider2D FindPlatformUnder()
     {
+        Debug.DrawRay(transform.position, Vector2.down * _checkerLength, Color.red);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _checkerLength, _groundLayer);
-        if (hit.collider == null) return null; 
-
+        if (hit.collider == null) {
+            Debug.Log("[PlayerMovement] Di bawah ga ada apa-apa");
+            return null;
+        } 
         PlaceableItem platform = hit.collider.GetComponent<PlaceableItem>();
         if (platform == null) return null;
 
+        Debug.Log("[PlayerMovement] Ada platform nih di bawah");
         return platform.GetCollider();
     } 
     private void TryDropThroughPlatform()
     {
+            Debug.Log("[PlayerMovement] mencoba turun ke bawah plaform");
         Collider2D platformIgnore = FindPlatformUnder();
         if(platformIgnore == null) return;
         DoFallThroughPlatform(platformIgnore);
