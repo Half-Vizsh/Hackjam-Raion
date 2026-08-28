@@ -4,7 +4,6 @@ public class QuicksandTrap : MonoBehaviour
 {
     [SerializeField] private float speedMultiplier = 0.4f;
     [SerializeField] private float jumpMultiplier = 0.3f;
-    [SerializeField] private float sinkRate = 0.5f;
     [SerializeField] private float timeToDeath = 3f;
 
     private float _timeInSand = 0f;
@@ -16,7 +15,7 @@ public class QuicksandTrap : MonoBehaviour
 
         _currentPlayer = movement;
         _timeInSand = 0f;
-        movement.ApplyQuicksandDebuff(speedMultiplier, jumpMultiplier, sinkRate);
+        movement.ApplyQuicksandDebuff(speedMultiplier, jumpMultiplier);
     }
 
     private void OnTriggerStay2D(Collider2D other)
