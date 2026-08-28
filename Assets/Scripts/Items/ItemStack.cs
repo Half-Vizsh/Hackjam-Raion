@@ -9,6 +9,11 @@ public class ItemStack
 
    public ItemData ItemData => _itemData;
    public int Amount => _amount;
+    public ItemStack(ItemData item, int count)
+    {
+        _itemData = item;
+        _amount = count;
+    }
     public void AddToStack()
     {
         this._amount++;
@@ -20,5 +25,9 @@ public class ItemStack
     public void RemoveFromStack()
     {
         this._amount--;
+    }
+    public ItemStack Clone()
+    {
+        return new ItemStack(this._itemData, this._amount);
     }
 }

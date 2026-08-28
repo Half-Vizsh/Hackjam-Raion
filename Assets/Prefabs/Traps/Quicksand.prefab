@@ -104,8 +104,8 @@ Transform:
   m_GameObject: {fileID: 1006839060919724249}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.4496, z: 0}
-  m_LocalScale: {x: 1, y: 1.6616399, z: 1}
+  m_LocalPosition: {x: 0, y: -0.826, z: 0}
+  m_LocalScale: {x: 0.3375118, y: 0.43507066, z: 0.2618321}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4196931350515142032}
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 8490642196906846815, guid: ea4b5128aa3cdd54db7e6dcfb89d6de7, type: 3}
   m_Color: {r: 1, g: 0.8853028, b: 0.3820755, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuicksandTrap
   speedMultiplier: 0.4
   jumpMultiplier: 0.5
-  timeToDeath: 30
+  timeToDeath: 15
 --- !u!50 &4212951939248580836
 Rigidbody2D:
   serializedVersion: 5

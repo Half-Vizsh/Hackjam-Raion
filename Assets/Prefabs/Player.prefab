@@ -5044,6 +5044,7 @@ GameObject:
   - component: {fileID: -5955525293927711084}
   - component: {fileID: 5192075427665260847}
   - component: {fileID: 5736097429548624472}
+  - component: {fileID: 9061092183980286342}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -5282,6 +5283,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimatonController
   playerSM: {fileID: 0}
   animator: {fileID: 6586601506318645279}
+--- !u!114 &9061092183980286342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350001140335054027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 216ea7d132b2db44d90d696aa609a215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioController
+  playerSM: {fileID: -5955525293927711084}
 --- !u!1 &5801084480412293997
 GameObject:
   m_ObjectHideFlags: 0

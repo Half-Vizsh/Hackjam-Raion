@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2f0fc94d64fcd7b40b26b131d8832854
+guid: e2aa85cada7d3c1499c07f82de35f6e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6991849013916550155
-    second: Death_0
+      213: 1219404039214095802
+    second: CellingTrap_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,53 +96,71 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Death_0
+      name: CellingTrap_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 2
-        width: 41
-        height: 50
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 1
+        y: 9
+        width: 229
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b0449ad32a9080160800000000000000
-      internalID: 6991849013916550155
+      spriteID: abd580353813ce010800000000000000
+      internalID: 1219404039214095802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CellingTrap_1
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 78
+        width: 32
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f8b9faf55bd8ab42bcdb2487583a9f7
+      internalID: 550763002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CellingTrap_2
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 9
+        width: 32
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7cc804b54c64e344b5962b24d57cab7
+      internalID: -1186588391
       vertices: []
       indices: 
       edges: []
@@ -151,7 +169,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: cd525fd650932b049bfd706510b8c7ed
+    spriteID: 988324ed4a37fb54c97373a80f231cbe
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +179,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Death_0: 6991849013916550155
+      CellingTrap_0: 1219404039214095802
+      CellingTrap_1: 550763002
+      CellingTrap_2: -1186588391
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

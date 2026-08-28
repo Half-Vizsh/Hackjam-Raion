@@ -6,7 +6,7 @@ public class PlayerAudioController : MonoBehaviour
     private void Awake()
     {
         playerSM = GetComponent<PlayerStateMachine>();
-        AudioManager.Instance.PlayMusic("BGM");
+        if (AudioManager.Instance != null)AudioManager.Instance.PlayMusic("BGM");
     }
     private void Update()
     {

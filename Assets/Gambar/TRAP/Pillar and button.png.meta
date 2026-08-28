@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2f0fc94d64fcd7b40b26b131d8832854
+guid: c2a4a243c374a804c9ae2ca418e173e4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6991849013916550155
-    second: Death_0
+      213: -1869402711340768419
+    second: Pillar and button_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,53 +96,93 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Death_0
+      name: Pillar and button_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 2
-        width: 41
-        height: 50
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 30
+        y: 64
+        width: 21
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b0449ad32a9080160800000000000000
-      internalID: 6991849013916550155
+      spriteID: d53a168732c8e06e0800000000000000
+      internalID: -1869402711340768419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pillar and button_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 9
+        width: 21
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dc0a4cde2176df48b6841a0f1fc05e4
+      internalID: -1720215049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pillar and button_2
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 98
+        width: 2
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbfa2e745feb1404bae042bed7dd1c7a
+      internalID: -1338852196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pillar and button_3
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 96
+        width: 1
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3e4ad8f587f24140b1900dd7775e50b
+      internalID: 974799350
       vertices: []
       indices: 
       edges: []
@@ -151,7 +191,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: cd525fd650932b049bfd706510b8c7ed
+    spriteID: 3607c15422085bc4997590dcc2de27bf
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +201,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Death_0: 6991849013916550155
+      Pillar and button_0: -1869402711340768419
+      Pillar and button_1: -1720215049
+      Pillar and button_2: -1338852196
+      Pillar and button_3: 974799350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -178,5 +178,23 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log("[PlayerInventory] Inventory Full!");
         return false;
     }
+    public ItemStack[] GetInventorySnapshot()
+    {
+        ItemStack[] snapshot = new ItemStack[_inventorySlots.Length];
+        for (int i = 0; i < _inventorySlots.Length; i++)
+        {
+            snapshot[i] = _inventorySlots[i] != null ? _inventorySlots[i].Clone() : null;
+        }
+        return snapshot;
+    }
+
+    public void RestoreFromSnapshot(ItemStack[] snapshot)
+    {
+        for (int i = 0; i < _inventorySlots.Length; i++)
+        {
+            _inventorySlots[i] = snapshot[i] != null ? snapshot[i].Clone() : null;
+            OnInventoryChanged?.Invoke(i, _inventorySlots[i]);
+        }
+    }
     #endregion
 }
