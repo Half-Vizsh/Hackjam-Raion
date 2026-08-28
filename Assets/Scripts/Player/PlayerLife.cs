@@ -5,6 +5,8 @@ public class PlayerLife : MonoBehaviour
 {
     public event Action OnPlayerDeath;
     private Rigidbody2D rb2D;
+    private PlayerStateMachine playerSM;
+    [Header("Death Jump")] 
     [SerializeField] private float _deathJumpForce;
     [SerializeField] private Collider2D physicalCollider;
     private bool _isDead;
@@ -13,14 +15,17 @@ public class PlayerLife : MonoBehaviour
     private void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
+        playerSM = GetComponent<PlayerStateMachine>();
     }
     public void Die()
     {
         Debug.Log("[PlayerLife] you died");
         _isDead = true;
+        playerSM.ChangeState(PlayerState.Dead);
+        OnPlayerDeath?.Invoke();
+        //Jump dead
         rb2D.linearVelocity = new Vector2 (0f, _deathJumpForce);
         physicalCollider.enabled = false;
-        OnPlayerDeath?.Invoke();
     }
 }
  

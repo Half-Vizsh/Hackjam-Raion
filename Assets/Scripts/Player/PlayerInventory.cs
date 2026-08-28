@@ -9,6 +9,7 @@ public class PlayerInventory : MonoBehaviour
     #region Variables
     private ItemStack[] _inventorySlots = new ItemStack[10];
     public event Action<int, ItemStack> OnInventoryChanged;
+    private PlayerStateMachine playerSM;
     private PlayerInput _inputSystem;
     [Header("Pick Up")]
     [SerializeField] private int _selectedPickupIdx;
@@ -32,6 +33,7 @@ public class PlayerInventory : MonoBehaviour
     {
         _inputSystem = new PlayerInput();
         _useController = GetComponent<PlayerUseController>();
+        playerSM = GetComponent<PlayerStateMachine>();
     }
     private void Start()
     {
@@ -40,6 +42,9 @@ public class PlayerInventory : MonoBehaviour
     }
     private void Update()
     {
+        if (PauseController.instance.IsPause) return;            
+        if (playerSM.CurrentState == PlayerState.Dead) return;
+
         if (_inputSystem.Player.Collect.WasPressedThisFrame())
         {
             HandlePickup();
@@ -114,6 +119,7 @@ public class PlayerInventory : MonoBehaviour
     }
     private void ChangeSelected(InputAction.CallbackContext ctx)
     {
+        if (PauseController.instance.IsPause) return;
         String keyName = ctx.control.name;
         if (int.TryParse(keyName, out int parsingIdx))
         {
@@ -124,6 +130,8 @@ public class PlayerInventory : MonoBehaviour
     }
     private void HandleHotbarScroll(InputAction.CallbackContext ctx)
     {
+        if (PauseController.instance.IsPause) return;
+        
         Vector2 scroll = ctx.ReadValue<Vector2>();
         if (scroll.y > 0)
         {

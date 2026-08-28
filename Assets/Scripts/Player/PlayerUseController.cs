@@ -34,6 +34,9 @@ public class PlayerUseController : MonoBehaviour
     } 
     private void Update()
     {
+        if (PauseController.instance.IsPause) return;            
+        if (_playerSM.CurrentState == PlayerState.Dead) return;
+
         _playerPos = transform.position;
         Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
         mouseScreenPos.z = -Camera.main.transform.position.z;
