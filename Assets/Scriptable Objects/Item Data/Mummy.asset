@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Mummy
   itemID: 7
   itemWeight: 4
-  icon: {fileID: 0}
+  icon: {fileID: -2463264560262688017, guid: 0faee8e8ca5efa449b89fd1c770598a8, type: 3}
   itemType: 1
   sellValue: 600
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 1781682931312961417, guid: 554181c87500dbb47b42336dbbf7ec64, type: 3}

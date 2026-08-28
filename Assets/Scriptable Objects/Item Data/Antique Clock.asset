@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Antique Clock
   itemID: 7
   itemWeight: 3.5
-  icon: {fileID: 0}
+  icon: {fileID: -5929930565801525622, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
   itemType: 0
   sellValue: 450
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 266760633300017675, guid: 8a6168b7e89f2ca49917655f34098a75, type: 3}

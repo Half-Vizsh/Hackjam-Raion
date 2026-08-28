@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class PauseController : MonoBehaviour

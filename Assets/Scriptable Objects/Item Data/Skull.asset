@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Skull
   itemID: 5
   itemWeight: 1.5
-  icon: {fileID: 0}
+  icon: {fileID: 8997179472572808510, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
   itemType: 0
   sellValue: 200
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 2290556246826538730, guid: 24e82d58a6f4afe48bea6dd6980704b0, type: 3}

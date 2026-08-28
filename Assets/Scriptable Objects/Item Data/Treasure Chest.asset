@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Treasure Chest
   itemID: 9
   itemWeight: 6
-  icon: {fileID: 0}
+  icon: {fileID: -5409903059660951888, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
   itemType: 1
   sellValue: 1000
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 4187434871307749047, guid: aa4dbee2665547944a667e038fe7580e, type: 3}

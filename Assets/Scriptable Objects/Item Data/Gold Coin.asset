@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Gold Coin
   itemID: 2
   itemWeight: 0.5
-  icon: {fileID: 0}
+  icon: {fileID: 4676459519168928599, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
   itemType: 0
   sellValue: 150
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 8773055602116703982, guid: 1cb4efb09c5cd3743adf4561196aa89f, type: 3}

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Genie Lamp
   itemID: 4
   itemWeight: 1.5
-  icon: {fileID: 0}
-  itemType: 0
+  icon: {fileID: 65169529992843446, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
+  itemType: 1
   sellValue: 1500
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 5674729161756146620, guid: bdcc45417cb3c97469455e8b46ed1b9f, type: 3}

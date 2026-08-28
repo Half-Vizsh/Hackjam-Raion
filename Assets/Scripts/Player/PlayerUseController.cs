@@ -35,8 +35,8 @@ public class PlayerUseController : MonoBehaviour
     } 
     private void Update()
     {
-        // if (PauseController.instance.IsPause) return;            
-        // if (_playerSM.CurrentState == PlayerState.Dead) return;
+        if (PauseController.instance.IsPause) return;            
+        if (_playerSM.CurrentState == PlayerState.Dead) return;
 
         _playerPos = transform.position;
         Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
@@ -108,6 +108,7 @@ public class PlayerUseController : MonoBehaviour
                 
         Rigidbody2D projectileRB = launchedProjectile.GetComponent<Rigidbody2D>();
         projectileRB.AddForce(_targetPos*_throwingPower, ForceMode2D.Impulse);
+        AudioManager.Instance.PlaySFX("Throw");
         OnItemUsed?.Invoke();
     }
     private void ReadPlacingInput()

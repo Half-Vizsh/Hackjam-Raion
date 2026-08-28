@@ -5199,7 +5199,7 @@ MonoBehaviour:
   _weightSpeedMultiplier: 0
   _weightJumpMultiplier: 0
   _playerCollider: {fileID: 3358576514078398152}
-  _checkerLength: 1
+  _checkerLength: 1.5
   _ignorePlatDur: 0.5
   _sinkSpeedMultiplier: 0
   _sinkJumpMultiplier: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Obelisk
   itemID: 8
   itemWeight: 5.5
-  icon: {fileID: 0}
+  icon: {fileID: -262973535236902581, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
   itemType: 1
   sellValue: 850
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 4736007175942501562, guid: 51062aaf2082c2e41890a9c129ede43b, type: 3}

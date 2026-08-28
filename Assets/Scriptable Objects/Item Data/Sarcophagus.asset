@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Sarcophagus
   itemID: 10
   itemWeight: 8
-  icon: {fileID: 0}
+  icon: {fileID: -3631345848363874753, guid: 0faee8e8ca5efa449b89fd1c770598a8, type: 3}
   itemType: 1
   sellValue: 1500
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 4734602712653927685, guid: 75903d6ab8d8e2b409cb866ba04bf077, type: 3}

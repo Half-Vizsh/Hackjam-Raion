@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Vase
   itemID: 6
   itemWeight: 2.5
-  icon: {fileID: 0}
+  icon: {fileID: -8734249006117464050, guid: 69f3eb1da22acb342abfd4c54a84fc0a, type: 3}
   itemType: 1
   sellValue: 300
-  physicalPrefab: {fileID: 0}
+  physicalPrefab: {fileID: 8263187941968229113, guid: 74b6f62fc8ab107458e0f42bc864525d, type: 3}

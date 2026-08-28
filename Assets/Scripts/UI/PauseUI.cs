@@ -42,7 +42,7 @@ public class PauseUI : MonoBehaviour
     }
     public void OpenTutorialPanel()
     {
-        MusicPanel.SetActive(false);
         TutorialPanel.SetActive(true);
+        MusicPanel.SetActive(false);
     }
 }
