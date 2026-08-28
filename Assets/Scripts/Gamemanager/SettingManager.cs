@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -92,6 +93,9 @@ public class SettingsManager : MonoBehaviour
             Debug.LogWarning("AudioManager.Instance is null!");
         }
     }
-
+    public void MoveToMainMenu()
+    {
+        SceneManager.LoadSceneAsync("Main Menu");
+    }
     #endregion
 }

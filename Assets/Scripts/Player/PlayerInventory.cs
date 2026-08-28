@@ -178,6 +178,15 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log("[PlayerInventory] Inventory Full!");
         return false;
     }
+    public float CalculateInventoryValue()
+    {
+        float total = 0;
+        foreach(ItemStack item in _inventorySlots)
+        {
+            if (item!=null) total += item.ItemData.sellValue;
+        }
+        return total;
+    }
     public ItemStack[] GetInventorySnapshot()
     {
         ItemStack[] snapshot = new ItemStack[_inventorySlots.Length];

@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (Finish.instance.isWin) return;
         ApplyFlip();
         if (playerSM.CurrentState == PlayerState.Aiming || playerSM.CurrentState == PlayerState.Throwing)
         {
@@ -78,12 +79,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (playerSM.CurrentState == PlayerState.Aiming || playerSM.CurrentState == PlayerState.Throwing)
+        if (playerSM.CurrentState == PlayerState.Aiming || playerSM.CurrentState == PlayerState.Throwing || playerSM.CurrentState == PlayerState.Dead)
         {
             _rigidbody2D.linearVelocityX = 0;
           return;  
         } 
-        if (playerSM.CurrentState == PlayerState.Dead) return;
+        if (Finish.instance.isWin)
+        {
+           _rigidbody2D.linearVelocityX = 0;
+          return;   
+        } 
         _modifiedVelocity = _rigidbody2D.linearVelocity;
         ApplyFall();
         ApplyMovement();

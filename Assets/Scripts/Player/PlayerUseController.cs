@@ -35,7 +35,8 @@ public class PlayerUseController : MonoBehaviour
     } 
     private void Update()
     {
-        if (PauseController.instance.IsPause) return;            
+        if (PauseController.instance.IsPause) return;
+        if (Finish.instance.isWin) {_playerSM.ChangeState(PlayerState.Idle); return;}            
         if (_playerSM.CurrentState == PlayerState.Dead) return;
 
         _playerPos = transform.position;

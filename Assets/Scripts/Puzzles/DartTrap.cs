@@ -1,7 +1,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public class DartTrap : MonoBehaviour
+public class DartTrap : MonoBehaviour, IResetable
 {
     #region Variables
     [SerializeField] private GameObject bulletPrefab;
@@ -47,5 +47,10 @@ public class DartTrap : MonoBehaviour
     }
     #endregion
     #region Public Methods
+    public void ResetTrap()
+    {
+            _canShoot = true;
+            _isActive = true;
+    }
     #endregion
 }

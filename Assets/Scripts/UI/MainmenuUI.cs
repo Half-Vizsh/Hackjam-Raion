@@ -5,7 +5,6 @@ public class MainmenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject CreditPanel;
     [SerializeField] private GameObject MainPanel;
-    [SerializeField] private GameObject SettingPanel;
     private void Start()
     {
         TitleMenu();
@@ -13,7 +12,7 @@ public class MainmenuUI : MonoBehaviour
     public void StartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Main Level");
     }
     public void ExitGame()
     {
@@ -27,18 +26,15 @@ public class MainmenuUI : MonoBehaviour
     {
         CreditPanel.SetActive(true);
         MainPanel.SetActive(false);
-        SettingPanel.SetActive(false);
     }
     public void SettingMenu()
     {
         CreditPanel.SetActive(false);
         MainPanel.SetActive(false);
-        SettingPanel.SetActive(true);        
     }
     public void TitleMenu()
     {
         CreditPanel.SetActive(false);
         MainPanel.SetActive(true);
-        SettingPanel.SetActive(false);        
     }
 }

@@ -23,6 +23,7 @@ public class PauseUI : MonoBehaviour
     }
     public void Pause()
     {
+        //Kenapa malah implement disini anj
         PauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }

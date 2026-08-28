@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f8397a26aae19448c9037921262749, type: 3}
+  m_Name: Pool2
+  m_EditorClassIdentifier: Assembly-CSharp::StartingLoadoutPool
+  possibleItems:
+  - item: {fileID: 11400000, guid: b93011b8ddc4f0e45bcdf7a51a042d59, type: 2}
+    minCount: 1
+    maxCount: 1
+  - item: {fileID: 11400000, guid: 477d059a0801c1d4781f9c0c062f8ceb, type: 2}
+    minCount: 1
+    maxCount: 1
+  itemTypesToGrant: 2

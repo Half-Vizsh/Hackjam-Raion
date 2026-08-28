@@ -17,6 +17,11 @@ public class PauseController : MonoBehaviour
     }
     public void Update()
     {
+        if (Finish.instance.isWin)
+        {
+            _isPause = false;
+            return;            
+        } 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (_isPause)

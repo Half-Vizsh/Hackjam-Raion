@@ -28,4 +28,10 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: e9644b4764fb05343ae769528b0efe93, type: 2}
     minCount: 1
     maxCount: 1
-  itemTypesToGrant: 3
+  - item: {fileID: 11400000, guid: a30e75cb003cb684a9c7ccdc537a05cf, type: 2}
+    minCount: 1
+    maxCount: 1
+  - item: {fileID: 11400000, guid: ca2e5a5782373f24997a89f77ef484e0, type: 2}
+    minCount: 1
+    maxCount: 1
+  itemTypesToGrant: 4

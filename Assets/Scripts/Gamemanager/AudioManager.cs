@@ -61,6 +61,7 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        PlayMusic("BGM");
     }
 
     /// <summary>
