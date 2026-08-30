@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class ItemSpawner : MonoBehaviour
 {
+    private List<GameObject> SpawnedItems = new();
     [SerializeField] private StartingLoadoutPool _pool;
     [SerializeField] private ItemType typeToSpawn;
     [SerializeField] private Transform spawnPoint;
@@ -37,6 +39,7 @@ public class ItemSpawner : MonoBehaviour
         int count = Random.Range(chosenEntry.minCount, chosenEntry.maxCount + 1);
 
         GameObject spawned = Instantiate(chosenEntry.item.physicalPrefab, spawnPoint.position, Quaternion.identity);
+        SpawnedItems.Add(spawned);
 
         if (spawned.TryGetComponent(out ItemPickup pickup))
         {
@@ -58,4 +61,8 @@ public class ItemSpawner : MonoBehaviour
         SpawnRandomItem(spawnPos); // ganti parameter jadi Vector3 langsung, bukan Transform
     }
 }
+    public void ClearItems()
+    {
+        SpawnedItems.Clear();
+    }
 }

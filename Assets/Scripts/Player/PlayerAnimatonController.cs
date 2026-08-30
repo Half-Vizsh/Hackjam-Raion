@@ -1,5 +1,3 @@
-using System.Diagnostics.Tracing;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAnimatonController : MonoBehaviour

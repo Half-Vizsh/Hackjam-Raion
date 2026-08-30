@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72911f96e15302e4fb87d5a9aa4f1768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BridgeTrap
-  collapseTime: 0.25
+  collapseTime: 0.15
   bridgeCollider: {fileID: 0}
   rb2D: {fileID: 0}
   planks:

@@ -5182,11 +5182,11 @@ MonoBehaviour:
   _rigidbody2D: {fileID: 2621881180800508202}
   playerLife: {fileID: 5192075427665260847}
   _modifiedVelocity: {x: 0, y: 0}
-  _moveSpeed: 5
-  _runSpeed: 10
-  _maxSpeedDebuff: 0.8
-  _maxJumpDebuff: 0.8
-  _jumpForce: 15
+  _moveSpeed: 7
+  _runSpeed: 13
+  _maxSpeedDebuff: 0.5
+  _maxJumpDebuff: 0.5
+  _jumpForce: 20
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -5218,7 +5218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   _selectedPickupIdx: 0
   _currentSlotIdx: 0
-  _maxWeight: 100
+  _maxWeight: 30
 --- !u!114 &927375344806613637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5233,6 +5233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUseController
   _playerSM: {fileID: -5955525293927711084}
   _playerInventory: {fileID: 8905246266341477295}
+  allPlaced: []
   shootingPoint: {fileID: 1157575000294265667}
   shootingPointSprite: {fileID: 179359526757142787}
   _throwingPower: 30
@@ -5269,6 +5270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLife
   _deathJumpForce: 30
   physicalCollider: {fileID: 3358576514078398152}
+  respawnCD: 5
 --- !u!114 &5736097429548624472
 MonoBehaviour:
   m_ObjectHideFlags: 0

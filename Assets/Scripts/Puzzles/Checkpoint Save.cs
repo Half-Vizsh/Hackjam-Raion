@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CheckpointSave : MonoBehaviour
 {
     #region Variables
     [SerializeField] private List<GameObject> puzzleStored;
+    [SerializeField] private GameObject _itemSpawner;
     [SerializeField] private Transform respawnPos;
     public Transform RespawnPos => respawnPos;
 
@@ -38,6 +40,8 @@ public class CheckpointSave : MonoBehaviour
                 resettable.ResetTrap();
             }
         }
+        _itemSpawner.GetComponent<ItemSpawner>().ClearItems();
+        _itemSpawner.GetComponent<ItemSpawner>().SpawnItems();
     }
 
     public void SaveInventory(PlayerInventory inventory)

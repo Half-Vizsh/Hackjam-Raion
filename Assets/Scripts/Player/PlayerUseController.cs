@@ -1,16 +1,17 @@
 using System;
 using Unity.Cinemachine;
 using Unity.Mathematics;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class PlayerUseController : MonoBehaviour
 {
     #region Variables; 
     [SerializeField] private PlayerStateMachine _playerSM;
     [SerializeField] private PlayerInventory _playerInventory;
+    [SerializeField] private List<GameObject> allPlaced;
+    private PlayerLife playerLife; 
     public event Action OnItemUsed;
     private PlayerInput _inputSystem;
     private Vector2 _targetPos;
@@ -32,6 +33,7 @@ public class PlayerUseController : MonoBehaviour
     {
         _inputSystem = new PlayerInput();
         _playerSM = this.GetComponent<PlayerStateMachine>();
+        playerLife = GetComponent<PlayerLife>();
     } 
     private void Update()
     {
@@ -50,10 +52,12 @@ public class PlayerUseController : MonoBehaviour
     private void OnEnable()
     {
         _inputSystem.Enable();
+        playerLife.OnPlayerDeath += ClearPlacedResidual;
     }
     private void OnDisable()
     {
         _inputSystem.Disable();
+        playerLife.OnPlayerDeath -= ClearPlacedResidual;
     }
     #endregion
     #region Private Methods
@@ -122,6 +126,7 @@ public class PlayerUseController : MonoBehaviour
     private void HandlePlacement(ItemStack placedItem)
     {
         GameObject placedObject = Instantiate(placedItem.ItemData.physicalPrefab, placingPoint.position, quaternion.identity);
+        allPlaced.Add(placedObject);
         OnItemUsed?.Invoke();
     }
     private void DrawTrajectory()
@@ -182,6 +187,14 @@ public class PlayerUseController : MonoBehaviour
 }
     #endregion
     #region Public Methods
+    public void ClearPlacedResidual()
+    {
+        foreach (GameObject items in allPlaced)
+        {
+            Destroy(items);
+        }
+        allPlaced.Clear();
+    }
     public void DrawThrowingSprite()
     {
         shootingPointSprite.sprite = _playerInventory.GetCurrentSelected().ItemData.icon;
